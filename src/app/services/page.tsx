@@ -3,99 +3,129 @@
 import Link from "next/link";
 import Image from "next/image";
 
+const products = [
+  {
+    title: "Red Palm Weevil Lure",
+    scientific: "Rhynchophorus ferrugineus",
+    image: "/products/red-palm-weevil.jpg",
+    alt: "Bioorgo Red Palm Weevil pheromone lure pack",
+    description:
+      "High-performance pheromone lure developed for early detection, monitoring, and mass trapping of red palm weevils in arecanut, coconut, date, and oil palm plantations. Helps farmers identify infestation pressure early and strengthen integrated pest management strategies.",
+  },
+  {
+    title: "Rhinoceros Beetle Lure",
+    scientific: "Oryctes rhinoceros",
+    image: "/products/rhinoceros-beetle.jpg",
+    alt: "Bioorgo Rhinoceros Beetle pheromone lure pack",
+    description:
+      "Precision lure for monitoring and controlling rhinoceros beetles in coconut, arecanut, and palm crops. Designed to support trap-based field surveillance, reduce crop damage, and improve timely pest management decisions.",
+  },
+  {
+    title: "Fall Army Worm Lure",
+    scientific: "Spodoptera frugiperda",
+    image: "/products/fall-army-worm.jpg",
+    alt: "Bioorgo Fall Army Worm pheromone lure pack",
+    description:
+      "Specialized pheromone lure for tracking fall armyworm activity in maize, corn, millet, and related field crops. Ideal for early warning systems, regular monitoring, and better timing of control measures before severe infestation spreads.",
+  },
+  {
+    title: "Oriental Fruit Fly Lure",
+    scientific: "Bactrocera dorsalis",
+    image: "/products/oriental-fruit-fly.jpg",
+    alt: "Bioorgo Oriental Fruit Fly pheromone lure pack",
+    description:
+      "Targeted lure for monitoring oriental fruit fly populations in mango, guava, chikoo, papaya, and other fruit crops. Supports orchard protection through timely detection and efficient trap-based pest surveillance.",
+  },
+  {
+    title: "Tomato Leaf Miner Lure",
+    scientific: "Tuta absoluta",
+    image: "/products/tomato-leaf-miner.jpg",
+    alt: "Bioorgo Tomato Leaf Miner pheromone lure pack",
+    description:
+      "Advanced monitoring lure for tomato leaf miner management in tomato-growing systems. Useful for detecting moth activity early, improving trap-based monitoring, and reducing losses through faster intervention planning.",
+  },
+];
+
 export default function ServicesPage() {
   return (
-    <section className="relative py-24 overflow-hidden">
-
+    <section className="relative overflow-hidden py-24">
       {/* BACKGROUND GLOW */}
       <div className="absolute inset-0 -z-10">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-125 h-125 bg-green-100 blur-3xl opacity-20 rounded-full" />
+        <div className="absolute left-1/2 top-0 h-125 w-125 -translate-x-1/2 rounded-full bg-green-100 opacity-20 blur-3xl" />
       </div>
 
       {/* HEADER */}
-      <div className="max-w-3xl mx-auto px-6 text-center">
-        <h1 className="text-4xl md:text-5xl font-semibold tracking-tight">
-          Our Solutions
+      <div className="mx-auto max-w-3xl px-6 text-center">
+        <h1 className="text-4xl font-semibold tracking-tight md:text-5xl">
+          Our Products
         </h1>
 
-        <p className="mt-6 text-gray-600 text-lg">
-          Precision pest management solutions designed for modern agriculture.
+        <p className="mt-6 text-lg text-gray-600">
+          Advanced pheromone lure solutions for precise pest monitoring,
+          early detection, and smarter crop protection.
         </p>
       </div>
 
-      {/* SERVICES GRID WITH IMAGES */}
-      <div className="max-w-6xl mx-auto px-6 mt-20 grid md:grid-cols-3 gap-8">
-
-        {[
-          {
-            title: "Fruit Fly Trap System",
-            desc: "Female-targeted trapping for precision pest control.",
-            img: "/trap.png",
-          },
-          {
-            title: "Protein Bait Technology",
-            desc: "Scientifically formulated bait for effective suppression.",
-            img: "/bait.png",
-          },
-          {
-            title: "Pheromone Lures",
-            desc: "Species-specific monitoring and control systems.",
-            img: "/lure.png",
-          },
-        ].map((item) => (
+      {/* PRODUCT GRID */}
+      <div className="mx-auto mt-20 grid max-w-7xl gap-8 px-6 sm:grid-cols-2 xl:grid-cols-3">
+        {products.map((product) => (
           <div
-            key={item.title}
-            className="group border rounded-2xl overflow-hidden bg-white hover:shadow-xl hover:-translate-y-1 transition"
+            key={product.title}
+            className="group overflow-hidden rounded-2xl border bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl"
           >
-
             {/* IMAGE */}
-            <div className="relative aspect-4/3">
+            <div className="relative aspect-4/3 bg-gray-50">
               <Image
-                src={item.img}
-                alt={item.title}
+                src={product.image}
+                alt={product.alt}
                 fill
-                className="object-cover group-hover:scale-105 transition"
+                className="object-contain p-6 transition duration-300 group-hover:scale-105"
               />
             </div>
 
             {/* CONTENT */}
-            <div className="p-5 text-left">
-              <h2 className="text-lg font-semibold group-hover:text-green-600 transition">
-                {item.title}
-              </h2>
-
-              <p className="mt-2 text-gray-600 text-sm">
-                {item.desc}
+            <div className="p-6">
+              <p className="text-xs font-medium uppercase tracking-[0.18em] text-green-600">
+                Pheromone Lure
               </p>
 
-              <p className="mt-4 text-sm text-green-600 opacity-0 group-hover:opacity-100 transition">
+              <h2 className="mt-2 text-xl font-semibold text-gray-900 transition group-hover:text-green-600">
+                {product.title}
+              </h2>
+
+              <p className="mt-2 text-sm italic text-gray-500">
+                {product.scientific}
+              </p>
+
+              <p className="mt-4 text-sm leading-6 text-gray-600">
+                {product.description}
+              </p>
+
+              <p className="mt-5 text-sm font-medium text-green-600 opacity-0 transition group-hover:opacity-100">
                 Learn more →
               </p>
             </div>
-
           </div>
         ))}
-
       </div>
 
       {/* CTA */}
-      <div className="mt-24 text-center px-6">
-        <h2 className="text-2xl md:text-3xl font-semibold">
-          Ready to transform your pest control strategy?
+      <div className="mt-24 px-6 text-center">
+        <h2 className="text-2xl font-semibold md:text-3xl">
+          Ready to protect your crops?
         </h2>
 
         <p className="mt-4 text-gray-600">
-          Partner with Bioorgo for scalable, science-backed solutions.
+          Partner with Bioorgo for science-backed pest monitoring and field-ready pest control solutions.
         </p>
 
         <Link
           href="/contact"
-          className="inline-block mt-6 px-6 py-3 bg-black text-white rounded-lg hover:bg-gray-800 active:scale-95 transition"
+          className="mt-6 inline-block rounded-lg bg-black px-6 py-3 text-white transition hover:bg-gray-800 active:scale-95"
         >
           Get in Touch
         </Link>
       </div>
-
     </section>
   );
 }

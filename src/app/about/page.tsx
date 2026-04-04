@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 
 export default function AboutPage() {
@@ -63,14 +65,14 @@ export default function AboutPage() {
 
         <div className="mt-8 grid md:grid-cols-2 gap-10 items-center">
 
-          {/* IMAGE */}
-          <div className="relative w-full aspect-4/3 rounded-2xl overflow-hidden">
+          {/* IMAGE FIXED */}
+          <div className="relative w-full aspect-3/4 rounded-2xl overflow-hidden">
             <Image
               src="/vijeth.jpg"
               alt="Vijeth V Arya"
               fill
               sizes="(max-width: 768px) 100vw, 50vw"
-              className="object-cover"
+              className="object-cover object-top"
               priority
             />
           </div>
