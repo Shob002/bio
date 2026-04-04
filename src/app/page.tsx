@@ -93,13 +93,13 @@ export default function HomePage() {
           </ul>
         </div>
 
-        {/* IMAGE */}
-        <div className="relative aspect-4/3 rounded-2xl overflow-hidden">
+        {/* IMAGE FIXED */}
+        <div className="relative aspect-3/4 rounded-2xl overflow-hidden bg-white shadow-lg">
           <Image
-            src="/product.png"
-            alt="Fruit Fly Trap"
+            src="/fruit-fly-trap.jpg"
+            alt="Bioorgo Fruit Fly Trap"
             fill
-            className="object-cover"
+            className="object-contain p-6 hover:scale-105 transition duration-500"
           />
         </div>
 
