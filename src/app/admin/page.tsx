@@ -5,7 +5,27 @@ import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { api } from "~/trpc/react";
 
-const emptyForm = {
+// ✅ TYPES
+type ProductForm = {
+  title: string;
+  scientific: string;
+  category: string;
+  image: string;
+  alt: string;
+  description: string;
+  featured: boolean;
+};
+
+type CloudinaryResponse = {
+  secure_url?: string;
+};
+
+type Product = ProductForm & {
+  id: string;
+};
+
+// ✅ EMPTY FORM
+const emptyForm: ProductForm = {
   title: "",
   scientific: "",
   category: "",
@@ -21,13 +41,13 @@ export default function AdminPage() {
   const utils = api.useUtils();
 
   const [editId, setEditId] = useState<string | null>(null);
-  const [form, setForm] = useState(emptyForm);
+  const [form, setForm] = useState<ProductForm>(emptyForm);
   const [uploading, setUploading] = useState(false);
 
   // 🔐 AUTH GUARD
   useEffect(() => {
     if (status === "loading") return;
-    if (!session) router.replace("/admin/login");
+    if (!session) void router.replace("/admin/login"); // ✅ fixed
   }, [session, status, router]);
 
   // 📦 DATA
@@ -35,7 +55,7 @@ export default function AdminPage() {
     api.product.getAll.useQuery();
 
   // 🔄 REFRESH
-  const refresh = () => utils.product.getAll.invalidate();
+  const refresh = () => void utils.product.getAll.invalidate(); // ✅ fixed
 
   // ⚡ MUTATIONS
   const create = api.product.create.useMutation({
@@ -75,13 +95,13 @@ export default function AdminPage() {
       }
     );
 
-    const data = await res.json();
+    const data: CloudinaryResponse = await res.json(); // ✅ typed
     setUploading(false);
 
     if (data.secure_url) {
       setForm((prev) => ({
         ...prev,
-        image: data.secure_url,
+        image: data.secure_url!,
       }));
     } else {
       alert("Upload failed");
@@ -95,15 +115,19 @@ export default function AdminPage() {
   };
 
   const submit = () => {
-    if (!form.title || !form.category || !form.image)
-      return alert("Title, Category, Image required");
+    if (!form.title || !form.category || !form.image) {
+      alert("Title, Category, Image required");
+      return;
+    }
 
-    editId
-      ? update.mutate({ id: editId, ...form })
-      : create.mutate(form);
+    if (editId) {
+      update.mutate({ id: editId, ...form });
+    } else {
+      create.mutate(form);
+    }
   };
 
-  const edit = (p: any) => {
+  const edit = (p: Product) => {
     setEditId(p.id);
     setForm({ ...emptyForm, ...p });
   };
@@ -115,13 +139,12 @@ export default function AdminPage() {
 
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
-
       {/* HEADER */}
       <div className="flex justify-between mb-6">
         <h1 className="text-xl font-bold">Admin Panel</h1>
 
         <button
-          onClick={() => signOut()}
+          onClick={() => void signOut()} // ✅ fixed
           className="bg-red-500 text-white px-4 py-2 rounded"
         >
           Logout
@@ -130,7 +153,6 @@ export default function AdminPage() {
 
       {/* FORM */}
       <div className="bg-white p-4 rounded shadow space-y-2 mb-6">
-
         <h2 className="font-semibold">
           {editId ? "Edit Product" : "Add Product"}
         </h2>
@@ -140,7 +162,7 @@ export default function AdminPage() {
           <input
             key={key}
             placeholder={key}
-            value={(form as any)[key]}
+            value={form[key as keyof ProductForm] as string} // ✅ fixed
             onChange={(e) =>
               setForm({ ...form, [key]: e.target.value })
             }
@@ -154,12 +176,11 @@ export default function AdminPage() {
           accept="image/*"
           onChange={(e) => {
             const file = e.target.files?.[0];
-            if (file) uploadImage(file);
+            if (file) void uploadImage(file); // ✅ fixed
           }}
           className="border p-2 w-full"
         />
 
-        {/* UPLOAD STATUS */}
         {uploading && <p className="text-sm">Uploading...</p>}
 
         {/* IMAGE PREVIEW */}
@@ -208,10 +229,8 @@ export default function AdminPage() {
         <p className="text-center text-gray-500">No products</p>
       ) : (
         <div className="grid md:grid-cols-3 gap-4">
-
-          {products.map((p) => (
+          {products.map((p: Product) => (
             <div key={p.id} className="bg-white p-4 rounded shadow">
-
               <img
                 src={p.image || "/placeholder.jpg"}
                 className="h-40 w-full object-cover rounded"
@@ -222,7 +241,6 @@ export default function AdminPage() {
               <p className="text-sm text-gray-500">{p.category}</p>
 
               <div className="flex gap-2 mt-3">
-
                 <button
                   onClick={() => edit(p)}
                   className="bg-blue-500 text-white px-3 py-1 rounded"
@@ -231,18 +249,18 @@ export default function AdminPage() {
                 </button>
 
                 <button
-                  onClick={() =>
-                    confirm("Delete?") && remove.mutate({ id: p.id })
-                  }
+                  onClick={() => {
+                    if (confirm("Delete?")) {
+                      remove.mutate({ id: p.id });
+                    }
+                  }}
                   className="bg-red-500 text-white px-3 py-1 rounded"
                 >
                   Delete
                 </button>
-
               </div>
             </div>
           ))}
-
         </div>
       )}
     </div>

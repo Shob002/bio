@@ -1,34 +1,34 @@
-import { auth } from "~/server/auth";
 import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+import { getToken } from "next-auth/jwt";
 
-export default auth((req) => {
-  const { nextUrl } = req;
+// ✅ Define token type
+type Token = {
+  role?: string;
+};
 
-  const isAdminRoute = nextUrl.pathname.startsWith("/admin");
-  const isLoginPage = nextUrl.pathname.startsWith("/admin/login");
+export async function middleware(req: NextRequest) {
+  const token = (await getToken({ req })) as Token | null;
 
-  const user = req.auth?.user as any;
+  const { pathname } = req.nextUrl;
 
-  // 🚨 allow login page always
-  if (isLoginPage) {
-    return NextResponse.next();
-  }
+  // 🔐 Protect admin routes
+  if (pathname.startsWith("/admin")) {
+    // Not logged in
+    if (!token) {
+      return NextResponse.redirect(new URL("/admin/login", req.url));
+    }
 
-  // 🚫 not logged in → redirect only admin pages
-  if (isAdminRoute && !req.auth) {
-    return NextResponse.redirect(
-      new URL("/admin/login", nextUrl)
-    );
-  }
-
-  // 🚫 logged in but not admin
-  if (isAdminRoute && user?.role !== "ADMIN") {
-    return NextResponse.redirect(new URL("/", nextUrl));
+    // Optional: role check
+    if (token.role !== "admin") {
+      return NextResponse.redirect(new URL("/", req.url));
+    }
   }
 
   return NextResponse.next();
-});
+}
 
+// ✅ Apply only to admin routes
 export const config = {
   matcher: ["/admin/:path*"],
 };
