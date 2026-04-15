@@ -1,10 +1,9 @@
-import "~/styles/globals.css";
-
+import "../styles/globals.css";
 import { type Metadata } from "next";
 import { Geist } from "next/font/google";
 import Link from "next/link";
 
-import { TRPCReactProvider } from "~/trpc/react";
+import Providers from "./providers";
 
 export const metadata: Metadata = {
   title: "Bioorgo",
@@ -25,95 +24,83 @@ export default function RootLayout({
     <html lang="en" className={font.variable}>
       <body className="bg-white text-gray-900 antialiased">
 
-        <TRPCReactProvider>
+        {/* GLOBAL PROVIDERS (AUTH + TRPC) */}
+        <Providers>
 
           {/* NAVBAR */}
           <header className="sticky top-0 z-50 border-b bg-white/80 backdrop-blur-md">
-            <div className="max-w-6xl mx-auto flex items-center justify-between px-6 py-4">
-              
-              <Link href="/" className="font-semibold text-lg tracking-tight">
+            <div className="w-full flex items-center justify-between px-6 py-4">
+
+              <Link href="/" className="font-semibold text-lg">
                 Bioorgo
               </Link>
 
               <nav className="flex items-center gap-6 text-sm text-gray-600">
-                <Link href="/about" className="hover:text-black transition">
-                  About
-                </Link>
 
-                <Link href="/services" className="hover:text-black transition">
-                  Solutions
-                </Link>
+                <Link href="/about">About</Link>
+                <Link href="/services">Solutions</Link>
+                <Link href="/contact">Contact</Link>
 
-                <Link href="/contact" className="hover:text-black transition">
-                  Contact
+                {/* ADMIN LINK */}
+                <Link
+                  href="/admin"
+                  className="text-red-600 font-semibold"
+                >
+                  Admin
                 </Link>
 
                 <Link
                   href="/contact"
-                  className="ml-2 px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-800 transition"
+                  className="ml-2 px-4 py-2 bg-black text-white rounded-lg"
                 >
                   Get Started
                 </Link>
+
               </nav>
 
             </div>
           </header>
 
-          {/* CONTENT */}
-          <main className="max-w-6xl mx-auto px-6 py-16">
+          {/* MAIN CONTENT */}
+          <main className="w-full min-h-screen">
             {children}
           </main>
 
-          {/* FOOTER (UPGRADED) */}
-          <footer className="relative border-t mt-24 overflow-hidden">
+          {/* FOOTER */}
+          <footer className="border-t mt-24">
+            <div className="w-full px-6 py-10 grid md:grid-cols-3 gap-6 text-sm">
 
-            {/* GLOW */}
-            <div className="absolute inset-0 -z-10">
-              <div className="absolute -bottom-25 left-1/2 -translate-x-1/2 w-150 h-150 bg-green-200 blur-3xl opacity-20 rounded-full" />
-            </div>
-
-            <div className="max-w-6xl mx-auto px-6 py-14 grid md:grid-cols-3 gap-10 text-sm">
-
-              {/* BRAND */}
               <div>
-                <h3 className="text-lg font-semibold tracking-tight">
-                  Bioorgo
-                </h3>
-                <p className="mt-3 text-gray-600 max-w-xs">
+                <h3 className="font-semibold">Bioorgo</h3>
+                <p className="text-gray-600 mt-2">
                   Precision pest control powered by biology.
                 </p>
               </div>
 
-              {/* LINKS */}
               <div>
-                <h4 className="font-medium text-gray-900">Company</h4>
-                <div className="mt-4 flex flex-col gap-2 text-gray-600">
-                  <Link href="/about" className="hover:text-black transition">About</Link>
-                  <Link href="/services" className="hover:text-black transition">Solutions</Link>
-                  <Link href="/contact" className="hover:text-black transition">Contact</Link>
+                <h4 className="font-medium">Company</h4>
+                <div className="mt-2 flex flex-col gap-1">
+                  <Link href="/about">About</Link>
+                  <Link href="/services">Solutions</Link>
+                  <Link href="/contact">Contact</Link>
                 </div>
               </div>
 
-              {/* CONTACT */}
               <div>
-                <h4 className="font-medium text-gray-900">Contact</h4>
-                <div className="mt-4 space-y-2 text-gray-600">
-                  <p>📍 Karnataka, India</p>
-                  <p>📧 vijeth.arya@bioorgo.com</p>
-                  <p>📞 +91 9980908084</p>
-                </div>
+                <h4 className="font-medium">Contact</h4>
+                <p className="mt-2">Karnataka, India</p>
+                <p>vijeth.arya@bioorgo.com</p>
+                <p>+91 9980908084</p>
               </div>
 
             </div>
 
-            {/* BOTTOM */}
-            <div className="border-t text-center text-xs text-gray-500 py-6">
-              © {new Date().getFullYear()} Bioorgo. All rights reserved.
+            <div className="text-center text-xs text-gray-500 py-4 border-t">
+              © {new Date().getFullYear()} Bioorgo
             </div>
-
           </footer>
 
-        </TRPCReactProvider>
+        </Providers>
 
       </body>
     </html>
