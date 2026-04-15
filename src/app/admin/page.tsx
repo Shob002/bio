@@ -5,7 +5,7 @@ import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { api } from "~/trpc/react";
 
-// ✅ TYPES
+// TYPES
 type ProductForm = {
   title: string;
   scientific: string;
@@ -24,7 +24,6 @@ type Product = ProductForm & {
   id: string;
 };
 
-// ✅ EMPTY FORM
 const emptyForm: ProductForm = {
   title: "",
   scientific: "",
@@ -44,18 +43,30 @@ export default function AdminPage() {
   const [form, setForm] = useState<ProductForm>(emptyForm);
   const [uploading, setUploading] = useState(false);
 
-  // 🔐 AUTH GUARD
+  // ✅ AUTH GUARD (FIXED)
   useEffect(() => {
     if (status === "loading") return;
-    if (!session) void router.replace("/admin/login"); // ✅ fixed
-  }, [session, status, router]);
+
+    if (status === "unauthenticated") {
+      router.replace("/admin/login");
+      return;
+    }
+
+    if (status === "authenticated" && session?.user?.role !== "ADMIN") {
+      router.replace("/");
+    }
+  }, [status, session, router]);
+
+  // ⛔ Block render until auth ready
+  if (status !== "authenticated") {
+    return <div className="p-10 text-center">Checking auth...</div>;
+  }
 
   // 📦 DATA
   const { data: products = [], isLoading } =
     api.product.getAll.useQuery();
 
-  // 🔄 REFRESH
-  const refresh = () => void utils.product.getAll.invalidate(); // ✅ fixed
+  const refresh = () => utils.product.getAll.invalidate();
 
   // ⚡ MUTATIONS
   const create = api.product.create.useMutation({
@@ -76,7 +87,7 @@ export default function AdminPage() {
     onSuccess: refresh,
   });
 
-  // 🖼️ CLOUDINARY UPLOAD
+  // 🖼️ IMAGE UPLOAD (FINAL FIX)
   const uploadImage = async (file: File) => {
     setUploading(true);
 
@@ -95,20 +106,24 @@ export default function AdminPage() {
       }
     );
 
-    const data: CloudinaryResponse = await res.json(); // ✅ typed
+    const data: CloudinaryResponse = await res.json();
     setUploading(false);
 
-    if (data.secure_url) {
-      setForm((prev) => ({
-        ...prev,
-        image: data.secure_url!,
-      }));
-    } else {
+    // ✅ IMPORTANT FIX (Type-safe)
+    const url = data.secure_url;
+
+    if (!url) {
       alert("Upload failed");
+      return;
     }
+
+    setForm((prev) => ({
+      ...prev,
+      image: url, // ✅ guaranteed string
+    }));
   };
 
-  // 🔁 HELPERS
+  // HELPERS
   const reset = () => {
     setEditId(null);
     setForm(emptyForm);
@@ -132,8 +147,7 @@ export default function AdminPage() {
     setForm({ ...emptyForm, ...p });
   };
 
-  // ⏳ LOADING
-  if (status === "loading" || isLoading) {
+  if (isLoading) {
     return <div className="p-10 text-center">Loading...</div>;
   }
 
@@ -144,7 +158,7 @@ export default function AdminPage() {
         <h1 className="text-xl font-bold">Admin Panel</h1>
 
         <button
-          onClick={() => void signOut()} // ✅ fixed
+          onClick={() => signOut()}
           className="bg-red-500 text-white px-4 py-2 rounded"
         >
           Logout
@@ -157,12 +171,11 @@ export default function AdminPage() {
           {editId ? "Edit Product" : "Add Product"}
         </h2>
 
-        {/* TEXT INPUTS */}
         {["title", "category", "description"].map((key) => (
           <input
             key={key}
             placeholder={key}
-            value={form[key as keyof ProductForm] as string} // ✅ fixed
+            value={form[key as keyof ProductForm] as string}
             onChange={(e) =>
               setForm({ ...form, [key]: e.target.value })
             }
@@ -176,14 +189,13 @@ export default function AdminPage() {
           accept="image/*"
           onChange={(e) => {
             const file = e.target.files?.[0];
-            if (file) void uploadImage(file); // ✅ fixed
+            if (file) uploadImage(file);
           }}
           className="border p-2 w-full"
         />
 
-        {uploading && <p className="text-sm">Uploading...</p>}
+        {uploading && <p>Uploading...</p>}
 
-        {/* IMAGE PREVIEW */}
         {form.image && (
           <img
             src={form.image}
@@ -192,7 +204,6 @@ export default function AdminPage() {
           />
         )}
 
-        {/* FEATURED */}
         <label className="flex items-center gap-2 text-sm">
           <input
             type="checkbox"
@@ -204,7 +215,6 @@ export default function AdminPage() {
           Featured
         </label>
 
-        {/* BUTTONS */}
         <div className="flex gap-2">
           <button
             onClick={submit}
@@ -232,9 +242,9 @@ export default function AdminPage() {
           {products.map((p: Product) => (
             <div key={p.id} className="bg-white p-4 rounded shadow">
               <img
-                src={p.image || "/placeholder.jpg"}
+                src={p.image}
                 className="h-40 w-full object-cover rounded"
-                alt={p.title || "product"}
+                alt={p.title}
               />
 
               <h3 className="font-bold mt-2">{p.title}</h3>
@@ -249,11 +259,10 @@ export default function AdminPage() {
                 </button>
 
                 <button
-                  onClick={() => {
-                    if (confirm("Delete?")) {
-                      remove.mutate({ id: p.id });
-                    }
-                  }}
+                  onClick={() =>
+                    confirm("Delete?") &&
+                    remove.mutate({ id: p.id })
+                  }
                   className="bg-red-500 text-white px-3 py-1 rounded"
                 >
                   Delete

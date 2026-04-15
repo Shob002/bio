@@ -40,7 +40,7 @@ export const authConfig = {
       },
 
       async authorize(credentials) {
-        if (credentials?.password === "admin123") {
+        if (credentials?.password === process.env.ADMIN_PASSWORD) {
           return {
             id: "admin",
             name: "Admin",
@@ -61,16 +61,14 @@ export const authConfig = {
   },
 
   callbacks: {
-    // ✅ attach role + id to token
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
-        token.role = user.role ?? "USER"; // ✅ removed any
+        token.role = user.role ?? "USER";
       }
       return token;
     },
 
-    // ✅ attach to session
     async session({ session, token }) {
       if (session.user) {
         session.user.id = token.id ?? "";

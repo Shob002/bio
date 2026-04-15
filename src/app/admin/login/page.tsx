@@ -9,7 +9,6 @@ export default function LoginPage() {
   const { status } = useSession();
   const router = useRouter();
 
-  // auto redirect if already logged in
   useEffect(() => {
     if (status === "authenticated") {
       router.replace("/admin");
@@ -24,14 +23,20 @@ export default function LoginPage() {
       redirect: false,
     });
 
-    if (res?.ok) router.replace("/admin");
-    else alert("Invalid password");
+    if (res?.ok) {
+      router.replace("/admin");
+    } else {
+      alert("Invalid password");
+    }
   };
+
+  if (status === "loading") {
+    return <div className="p-10 text-center">Loading...</div>;
+  }
 
   return (
     <div className="h-screen flex items-center justify-center bg-white">
       <div className="w-64 space-y-3">
-
         <input
           type="password"
           value={password}
@@ -46,7 +51,6 @@ export default function LoginPage() {
         >
           Login
         </button>
-
       </div>
     </div>
   );
