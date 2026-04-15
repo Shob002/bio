@@ -15,6 +15,17 @@ declare module "next-auth" {
       role: "USER" | "ADMIN";
     } & DefaultSession["user"];
   }
+
+  interface User {
+    role?: "USER" | "ADMIN";
+  }
+}
+
+declare module "next-auth/jwt" {
+  interface JWT {
+    id?: string;
+    role?: "USER" | "ADMIN";
+  }
 }
 
 export const authConfig = {
@@ -35,7 +46,7 @@ export const authConfig = {
             name: "Admin",
             email: "admin@bioorgo.com",
             role: "ADMIN",
-          } as any;
+          };
         }
 
         return null;
@@ -50,19 +61,20 @@ export const authConfig = {
   },
 
   callbacks: {
-    // ✅ attach role + id to session
-    jwt: async ({ token, user }) => {
+    // ✅ attach role + id to token
+    async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
-        token.role = (user as any).role ?? "USER";
+        token.role = user.role ?? "USER"; // ✅ removed any
       }
       return token;
     },
 
-    session: async ({ session, token }) => {
+    // ✅ attach to session
+    async session({ session, token }) {
       if (session.user) {
-        session.user.id = token.id as string;
-        session.user.role = token.role as "USER" | "ADMIN";
+        session.user.id = token.id ?? "";
+        session.user.role = (token.role ?? "USER") as "USER" | "ADMIN";
       }
       return session;
     },
