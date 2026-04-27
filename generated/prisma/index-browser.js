@@ -180,10 +180,11 @@ exports.Prisma.ProductScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.ContactScalarFieldEnum = {
+exports.Prisma.ContactMessageScalarFieldEnum = {
   id: 'id',
   name: 'name',
   email: 'email',
+  phone: 'phone',
   message: 'message',
   createdAt: 'createdAt'
 };
@@ -214,7 +215,7 @@ exports.Prisma.ModelName = {
   User: 'User',
   Post: 'Post',
   Product: 'Product',
-  Contact: 'Contact'
+  ContactMessage: 'ContactMessage'
 };
 
 /**

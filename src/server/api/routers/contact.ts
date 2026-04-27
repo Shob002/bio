@@ -1,60 +1,37 @@
 import { z } from "zod";
-import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
+import {
+  createTRPCRouter,
+  publicProcedure,
+  adminProcedure,
+} from "~/server/api/trpc";
 
 export const contactRouter = createTRPCRouter({
-  // ➕ Create Contact
-  create: publicProcedure
+  sendMessage: publicProcedure
     .input(
       z.object({
-        name: z
-          .string()
-          .min(2, "Name must be at least 2 characters"),
-
-        email: z
-          .string()
-          .email("Invalid email address"),
-
-        message: z
-          .string()
-          .min(5, "Message must be at least 5 characters"),
-      })
+        name: z.string().min(2),
+        email: z.string().email(),
+        phone: z.string().optional(),
+        message: z.string().min(5),
+      }),
     )
-    .mutation(async ({ ctx, input }) => {
-      try {
-        const contact = await ctx.db.contact.create({
-          data: {
-            name: input.name,
-            email: input.email,
-            message: input.message,
-          },
-        });
-
-        return {
-          success: true,
-          data: contact,
-        };
-      } catch (error) {
-        throw new Error("Failed to save contact");
-      }
+    .mutation(({ ctx, input }) => {
+      return ctx.db.contactMessage.create({
+        data: input,
+      });
     }),
 
-  // 📄 Get All Contacts (for admin later)
-  getAll: publicProcedure.query(async ({ ctx }) => {
-    return await ctx.db.contact.findMany({
-      orderBy: {
-        createdAt: "desc",
-      },
+  getAll: adminProcedure.query(({ ctx }) => {
+    return ctx.db.contactMessage.findMany({
+      orderBy: { createdAt: "desc" },
     });
   }),
 
-  // ❌ Delete Contact (admin use)
-  delete: publicProcedure
-    .input(z.object({ id: z.string() }))
-    .mutation(async ({ ctx, input }) => {
-      await ctx.db.contact.delete({
+  delete: adminProcedure
+    .input(z.object({ id: z.string().min(1) }))
+    .mutation(({ ctx, input }) => {
+      return ctx.db.contactMessage.delete({
         where: { id: input.id },
       });
-
-      return { success: true };
     }),
 });

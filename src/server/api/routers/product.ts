@@ -1,10 +1,18 @@
-import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { z } from "zod";
+import {
+  createTRPCRouter,
+  publicProcedure,
+  adminProcedure,
+} from "~/server/api/trpc";
 
 export const productRouter = createTRPCRouter({
+  getAll: publicProcedure.query(({ ctx }) => {
+    return ctx.db.product.findMany({
+      orderBy: { createdAt: "desc" },
+    });
+  }),
 
-  // ➕ CREATE PRODUCT
-  create: publicProcedure
+  create: adminProcedure
     .input(
       z.object({
         title: z.string().min(1),
@@ -14,32 +22,23 @@ export const productRouter = createTRPCRouter({
         alt: z.string().optional().default("product image"),
         description: z.string().min(1),
         featured: z.boolean().optional().default(false),
-      })
+      }),
     )
-    .mutation(async ({ ctx, input }) => {
+    .mutation(({ ctx, input }) => {
       return ctx.db.product.create({
         data: input,
       });
     }),
 
-  // 📦 GET ALL PRODUCTS
-  getAll: publicProcedure.query(({ ctx }) => {
-    return ctx.db.product.findMany({
-      orderBy: { createdAt: "desc" },
-    });
-  }),
-
-  // ❌ DELETE PRODUCT
-  delete: publicProcedure
+  delete: adminProcedure
     .input(z.object({ id: z.string().min(1) }))
-    .mutation(async ({ ctx, input }) => {
+    .mutation(({ ctx, input }) => {
       return ctx.db.product.delete({
         where: { id: input.id },
       });
     }),
 
-  // ✏️ UPDATE PRODUCT (SAFE VERSION)
-  update: publicProcedure
+  update: adminProcedure
     .input(
       z.object({
         id: z.string().min(1),
@@ -49,10 +48,10 @@ export const productRouter = createTRPCRouter({
         image: z.string().min(1),
         alt: z.string().optional().default("product image"),
         description: z.string().min(1),
-        featured: z.boolean().default(false),
-      })
+        featured: z.boolean().optional().default(false),
+      }),
     )
-    .mutation(async ({ ctx, input }) => {
+    .mutation(({ ctx, input }) => {
       const { id, ...data } = input;
 
       return ctx.db.product.update({

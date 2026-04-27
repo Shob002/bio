@@ -1,57 +1,68 @@
 "use client";
 
-import { signIn, useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function LoginPage() {
-  const [password, setPassword] = useState("");
-  const { status } = useSession();
   const router = useRouter();
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    if (status === "authenticated") {
-      router.replace("/admin");
+  async function login() {
+    if (!password) {
+      alert("Enter admin password");
+      return;
     }
-  }, [status, router]);
 
-  const login = async () => {
-    if (!password) return;
+    setLoading(true);
 
     const res = await signIn("credentials", {
       password,
       redirect: false,
+      callbackUrl: "/admin",
     });
 
+    setLoading(false);
+
     if (res?.ok) {
-      router.replace("/admin");
+      router.push("/admin");
+      router.refresh();
     } else {
       alert("Invalid password");
     }
-  };
-
-  if (status === "loading") {
-    return <div className="p-10 text-center">Loading...</div>;
   }
 
   return (
-    <div className="h-screen flex items-center justify-center bg-white">
-      <div className="w-64 space-y-3">
+    <main className="flex min-h-screen items-center justify-center bg-gray-100 px-4">
+      <div className="w-full max-w-sm rounded-2xl bg-white p-6 shadow-lg">
+        <h1 className="mb-1 text-2xl font-bold text-slate-900">
+          Admin Login
+        </h1>
+
+        <p className="mb-5 text-sm text-gray-500">
+          Enter password to access Bioorgo admin panel.
+        </p>
+
         <input
           type="password"
+          placeholder="Admin password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          placeholder="Admin password"
-          className="w-full border p-2 rounded"
+          onKeyDown={(e) => {
+            if (e.key === "Enter") void login();
+          }}
+          className="mb-3 w-full rounded-xl border px-4 py-3 outline-none focus:border-green-600"
         />
 
         <button
-          onClick={login}
-          className="w-full bg-black text-white p-2 rounded"
+          onClick={() => void login()}
+          disabled={loading}
+          className="w-full rounded-xl bg-green-700 py-3 font-semibold text-white hover:bg-green-800 disabled:opacity-50"
         >
-          Login
+          {loading ? "Checking..." : "Login"}
         </button>
       </div>
-    </div>
+    </main>
   );
 }

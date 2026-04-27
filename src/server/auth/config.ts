@@ -4,19 +4,16 @@ import type { NextAuthConfig } from "next-auth";
 export const authConfig = {
   providers: [
     Credentials({
-      name: "Credentials",
+      name: "Admin Login",
       credentials: {
         password: { label: "Password", type: "password" },
       },
-
       async authorize(credentials) {
-        console.log("LOGIN:", credentials);
-
         const password = credentials?.password;
 
-        if (password === "admin123") {
+        if (password === process.env.ADMIN_PASSWORD) {
           return {
-            id: "1",
+            id: "admin",
             name: "Admin",
             role: "ADMIN",
           };
@@ -32,26 +29,26 @@ export const authConfig = {
   },
 
   callbacks: {
-    async jwt({ token, user }) {
+    jwt({ token, user }) {
       if (user) {
         token.role = (user as any).role;
-        token.id = user.id;
       }
+
       return token;
     },
 
-    async session({ session, token }) {
+    session({ session, token }) {
       if (session.user) {
         (session.user as any).role = token.role;
-        session.user.name = token.name as string;
       }
+
       return session;
     },
   },
 
   pages: {
-    signIn: "/admin/login", // 🔥 important fix for redirect loop issues
+    signIn: "/admin/login",
   },
 
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: process.env.AUTH_SECRET,
 } satisfies NextAuthConfig;

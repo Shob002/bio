@@ -112,10 +112,11 @@ model Product {
 // 📩 CONTACT LEADS (NEW PRO FEATURE)
 //
 
-model Contact {
+model ContactMessage {
   id        String   @id @default(cuid())
   name      String
   email     String
+  phone     String?
   message   String
   createdAt DateTime @default(now())
 }

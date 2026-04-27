@@ -4,110 +4,152 @@ import Image from "next/image";
 
 export default function AboutPage() {
   return (
-    <section>
+    <main className="bg-white">
 
-      {/* 🔥 HERO FULL SCREEN */}
-      <div className="relative w-full h-[90vh]">
+      {/* HERO */}
+      <section className="relative min-h-screen w-full overflow-hidden">
         <Image
           src="/featured-product.jpg"
-          alt="Bioorgo"
+          alt="Bioorgo pest control innovation"
           fill
           priority
-          className="object-cover"
+          sizes="100vw"
+          className="object-cover object-center"
         />
 
-        {/* DARK OVERLAY */}
-        <div className="absolute inset-0 bg-black/50" />
+        <div className="absolute inset-0 bg-black/55" />
 
-        {/* TEXT ON IMAGE */}
-        <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6">
-          <h1 className="text-4xl md:text-6xl font-semibold text-white">
-            About Bioorgo
-          </h1>
-
-          <p className="mt-6 text-white/90 max-w-2xl text-lg">
-            Advanced Integrated Pest Management through Chemical Ecology
-          </p>
-        </div>
-      </div>
-
-      {/* CONTENT START */}
-      <div className="py-24">
-
-        {/* ABOUT TEXT */}
-        <div className="max-w-3xl mx-auto px-6 text-center">
-          <p className="text-gray-600 text-lg">
-            Bioorgo (Kempmann Bioorganics LLP) is a biotechnology-driven company focused on 
-            developing pheromone- and kairomone-based solutions that reduce chemical dependency 
-            and enable sustainable crop protection.
-          </p>
-        </div>
-
-        {/* STATS */}
-        <div className="mt-16 max-w-6xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-          {[
-            { value: "10K+", label: "Farmers Reached" },
-            { value: "5+", label: "Countries" },
-            { value: "3+", label: "Patents" },
-            { value: "8+ Years", label: "Experience" },
-          ].map((item) => (
-            <div
-              key={item.label}
-              className="p-6 border rounded-2xl bg-white/80 backdrop-blur"
-            >
-              <p className="text-2xl font-semibold">{item.value}</p>
-              <p className="text-sm text-gray-500 mt-1">{item.label}</p>
-            </div>
-          ))}
-        </div>
-
-        {/* VISION + MISSION */}
-        <div className="mt-20 max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-10">
-          <div className="p-6 border rounded-2xl">
-            <h2 className="text-xl font-semibold text-green-700">Our Vision</h2>
-            <p className="mt-4 text-gray-600">
-              To promote ecological farming systems that enhance biodiversity and sustainability.
-            </p>
-          </div>
-
-          <div className="p-6 border rounded-2xl">
-            <h2 className="text-xl font-semibold text-green-700">Our Mission</h2>
-            <p className="mt-4 text-gray-600">
-              To deliver advanced pest management solutions using chemical ecology and IPM.
+        <div className="relative z-10 flex min-h-screen items-center justify-center px-6 text-center">
+          <div className="max-w-3xl mt-16 md:mt-24">
+            <p className="text-lg leading-8 text-white/90 md:text-xl">
+              Advanced Integrated Pest Management through chemical ecology,
+              pheromones, kairomones, and no-spray crop protection technology.
             </p>
           </div>
         </div>
+      </section>
 
-        {/* LEADERSHIP */}
-        <div className="mt-24 max-w-6xl mx-auto px-6">
-          <h2 className="text-2xl font-semibold text-center">Leadership</h2>
+      {/* ABOUT */}
+      <section className="px-6 py-24">
+        <div className="mx-auto max-w-4xl text-center">
+          <p className="text-sm font-semibold uppercase tracking-[0.3em] text-green-700">
+            Who We Are
+          </p>
 
-          <div className="mt-12 grid md:grid-cols-2 gap-12 items-center">
-            <div className="relative w-full h-112.5 rounded-2xl overflow-hidden shadow-lg">
+          <h2 className="mt-4 text-3xl font-bold text-slate-900 md:text-5xl">
+            Biology-driven solutions for sustainable agriculture
+          </h2>
+
+          <p className="mt-6 text-lg leading-8 text-gray-600">
+            Bioorgo develops pheromone- and kairomone-based pest management
+            solutions that help farmers reduce chemical dependency, protect
+            yield quality, and support ecologically responsible crop protection.
+          </p>
+        </div>
+      </section>
+
+      {/* VISION & MISSION */}
+      <section className="bg-gray-50 px-6 py-24">
+        <div className="mx-auto grid max-w-6xl gap-8 md:grid-cols-2">
+
+          <div className="rounded-3xl bg-white p-8 shadow-sm">
+            <h2 className="text-2xl font-bold text-green-700">
+              Our Vision
+            </h2>
+            <p className="mt-4 leading-7 text-gray-600">
+              Kempmann Bioorganics LLP, through its premium brand Bioorgo,
+              offers innovative pheromone, kairomone, and trap-based solutions
+              for sustainable pest management. Our products are scientifically
+              developed and economically designed to deliver high efficiency
+              while reducing chemical usage, helping farmers achieve better
+              yields and healthier crops.
+            </p>
+          </div>
+
+          <div className="rounded-3xl bg-white p-8 shadow-sm">
+            <h2 className="text-2xl font-bold text-green-700">
+              Our Mission
+            </h2>
+            <p className="mt-4 leading-7 text-gray-600">
+              To redefine crop protection through innovation-led,
+              environmentally responsible solutions. We aim to provide
+              high-performance pheromone and kairomone technologies that enable
+              effective pest control, maximize productivity, and support
+              sustainable farming practices.
+            </p>
+          </div>
+
+        </div>
+      </section>
+
+      {/* LEADERSHIP (UPDATED) */}
+      <section className="px-6 py-24">
+        <div className="mx-auto max-w-6xl">
+
+          <div className="mb-12 text-center">
+            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-green-700">
+              Leadership
+            </p>
+
+            <h2 className="mt-4 text-3xl font-bold text-slate-900 md:text-5xl">
+              Visionary leadership driving innovation
+            </h2>
+          </div>
+
+          <div className="grid items-center gap-12 md:grid-cols-2">
+
+            {/* IMAGE */}
+            <div className="relative h-130 w-full overflow-hidden rounded-3xl shadow-xl">
               <Image
                 src="/vijeth.jpg"
                 alt="Vijeth V Arya"
                 fill
+                sizes="(max-width: 768px) 100vw, 50vw"
                 className="object-cover object-top"
               />
             </div>
 
+            {/* TEXT */}
             <div>
-              <h3 className="text-2xl font-semibold">Vijeth V Arya</h3>
-              <p className="text-sm text-gray-500 mt-2">
-                Co-founder & Managing Director · Bengaluru, India
+              <h3 className="text-3xl font-bold text-slate-900">
+                Vijeth V. Arya
+              </h3>
+
+              <p className="mt-2 text-green-700 font-medium">
+                Co-founder & Managing Director, Bioorgo
               </p>
 
-              <ul className="mt-6 space-y-3 text-gray-600">
-                <li>✔ Pioneer in pheromone-based pest control</li>
-                <li>✔ Developed patented fruit fly trap</li>
-                <li>✔ Invited speaker at All India Radio (AIR)</li>
-              </ul>
+              <div className="mt-6 space-y-5 text-gray-700 leading-7">
+
+                <p>
+                  Vijeth V. Arya leads Bioorgo with a focus on biotechnology-driven,
+                  sustainable pest management solutions, specializing in
+                  pheromone- and kairomone-based Integrated Pest Management (IPM).
+                  Since 2015, he has driven the development, commercialization,
+                  and global expansion of innovative crop protection technologies.
+                </p>
+
+                <p>
+                  He has spearheaded breakthrough innovations such as a female
+                  fruit fly trap system, supported by patented technologies,
+                  helping reduce pesticide dependency while improving crop
+                  productivity. His work integrates research, field validation,
+                  manufacturing scale-up, and global partnerships.
+                </p>
+
+                <p>
+                  With strong contributions in research and intellectual property,
+                  he is advancing precision, eco-friendly agriculture—positioning
+                  Bioorgo as a leader in next-generation pest control.
+                </p>
+
+              </div>
             </div>
+
           </div>
         </div>
+      </section>
 
-      </div>
-    </section>
+    </main>
   );
 }

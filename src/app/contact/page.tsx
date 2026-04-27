@@ -1,6 +1,44 @@
+"use client";
+
+import { useState } from "react";
+import { api } from "~/trpc/react";
+
 export default function ContactPage() {
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    message: "",
+  });
+
+  const sendMessage = api.contact.sendMessage.useMutation({
+    onSuccess: () => {
+      alert("Message sent successfully!");
+      setForm({
+        name: "",
+        email: "",
+        phone: "",
+        message: "",
+      });
+    },
+    onError: () => {
+      alert("Failed to send message");
+    },
+  });
+
+  const submit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!form.name || !form.email || !form.message) {
+      alert("Please fill required fields");
+      return;
+    }
+
+    sendMessage.mutate(form);
+  };
+
   return (
-    <div className="py-24">
+    <main className="py-24 px-6 bg-gray-50 min-h-screen">
 
       {/* HEADER */}
       <div className="text-center max-w-2xl mx-auto">
@@ -15,33 +53,56 @@ export default function ContactPage() {
 
       {/* FORM */}
       <div className="mt-14 max-w-xl mx-auto">
-        <div className="p-8 rounded-2xl border bg-white/80 backdrop-blur shadow-[0_10px_30px_rgba(0,0,0,0.05)]">
+        <div className="p-8 rounded-2xl border bg-white shadow-sm">
 
-          <form className="space-y-5">
+          <form onSubmit={submit} className="space-y-5">
 
             <input
               type="text"
-              placeholder="Your Name"
-              className="w-full p-3 rounded-lg border bg-white focus:outline-none focus:ring-2 focus:ring-green-500 transition"
+              placeholder="Your Name *"
+              value={form.name}
+              onChange={(e) =>
+                setForm({ ...form, name: e.target.value })
+              }
+              className="w-full p-3 rounded-lg border focus:ring-2 focus:ring-green-500 outline-none"
             />
 
             <input
               type="email"
-              placeholder="Your Email"
-              className="w-full p-3 rounded-lg border bg-white focus:outline-none focus:ring-2 focus:ring-green-500 transition"
+              placeholder="Your Email *"
+              value={form.email}
+              onChange={(e) =>
+                setForm({ ...form, email: e.target.value })
+              }
+              className="w-full p-3 rounded-lg border focus:ring-2 focus:ring-green-500 outline-none"
+            />
+
+            <input
+              type="text"
+              placeholder="Phone (optional)"
+              value={form.phone}
+              onChange={(e) =>
+                setForm({ ...form, phone: e.target.value })
+              }
+              className="w-full p-3 rounded-lg border focus:ring-2 focus:ring-green-500 outline-none"
             />
 
             <textarea
-              placeholder="Your Message"
+              placeholder="Your Message *"
               rows={5}
-              className="w-full p-3 rounded-lg border bg-white focus:outline-none focus:ring-2 focus:ring-green-500 transition"
+              value={form.message}
+              onChange={(e) =>
+                setForm({ ...form, message: e.target.value })
+              }
+              className="w-full p-3 rounded-lg border focus:ring-2 focus:ring-green-500 outline-none"
             />
 
             <button
               type="submit"
-              className="w-full py-3 rounded-lg bg-black text-white font-medium hover:bg-gray-800 transition"
+              disabled={sendMessage.isPending}
+              className="w-full py-3 rounded-lg bg-green-700 text-white font-semibold hover:bg-green-800 disabled:opacity-50"
             >
-              Send Message
+              {sendMessage.isPending ? "Sending..." : "Send Message"}
             </button>
 
           </form>
@@ -55,6 +116,6 @@ export default function ContactPage() {
         <p>+91 9980908084</p>
       </div>
 
-    </div>
+    </main>
   );
 }
