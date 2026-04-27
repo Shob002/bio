@@ -30,10 +30,7 @@ export const authConfig = {
 
   callbacks: {
     jwt({ token, user }) {
-      if (user) {
-        token.role = (user as any).role;
-      }
-
+      if (user) token.role = (user as any).role;
       return token;
     },
 
@@ -41,7 +38,6 @@ export const authConfig = {
       if (session.user) {
         (session.user as any).role = token.role;
       }
-
       return session;
     },
   },
