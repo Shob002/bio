@@ -1,10 +1,10 @@
 @import "tailwindcss";
 
 :root {
-  --bg: #06100b;
-  --surface: #0d1a12;
+  --bg: #120d0a;       /* dark coco peat */
+  --surface: #1f1712;  /* rich soil layer */
   --text: #f5f1e8;
-  --muted: #c9d6c6;
+  --muted: #c9beb3;
   --green: #b7ef75;
 }
 
@@ -16,14 +16,41 @@
 
 html {
   scroll-behavior: smooth;
+  font-size: 14px;
 }
 
 body {
   margin: 0;
   overflow-x: hidden;
-  font-family: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
-  background: var(--bg);
+
+  font-family:
+    "Inter",
+    "Manrope",
+    var(--font-geist),
+    ui-sans-serif,
+    system-ui,
+    sans-serif;
+
+  background:
+    radial-gradient(
+      circle at top,
+      rgba(80,50,25,0.22),
+      transparent 35%
+    ),
+    linear-gradient(
+      180deg,
+      #241812 0%,
+      #1b130f 35%,
+      #120d0a 70%,
+      #090705 100%
+    );
+
   color: var(--text);
+
+  font-size: 0.92rem;
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -35,32 +62,46 @@ img {
 
 ::selection {
   background: var(--green);
-  color: #06100b;
+  color: #120d0a;
 }
 
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #06100b;
+  background: #120d0a;
 }
 
 ::-webkit-scrollbar-thumb {
   border-radius: 999px;
-  background: rgba(183, 239, 117, 0.45);
+  background: rgba(120,80,55,0.6);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(183, 239, 117, 0.75);
+  background: rgba(120,80,55,0.9);
 }
 
 .bio-grid {
   background-image:
-    linear-gradient(rgba(183, 239, 117, 0.045) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(183, 239, 117, 0.045) 1px, transparent 1px);
+    linear-gradient(
+      rgba(145,100,70,0.04) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(145,100,70,0.04) 1px,
+      transparent 1px
+    );
+
   background-size: 72px 72px;
-  mask-image: radial-gradient(circle at center, black, transparent 72%);
+
+  mask-image:
+    radial-gradient(
+      circle at center,
+      black,
+      transparent 72%
+    );
 }
 
 .bio-core {
@@ -71,7 +112,7 @@ img {
 .dna-orbit {
   position: absolute;
   border-radius: 999px;
-  border: 1px solid rgba(183, 239, 117, 0.16);
+  border: 1px solid rgba(145,100,70,0.2);
 }
 
 .orbit-a {
@@ -97,9 +138,12 @@ img {
   height: 260px;
   width: 260px;
   border-radius: 999px;
-  border: 1px solid rgba(183, 239, 117, 0.25);
-  box-shadow: 0 0 60px rgba(183, 239, 117, 0.12);
-  will-change: transform, opacity;
+
+  border: 1px solid rgba(145,100,70,0.25);
+
+  box-shadow:
+    0 0 60px rgba(145,100,70,0.15);
+
   animation: cropSignal 4.5s ease-in-out infinite;
 }
 
@@ -108,9 +152,8 @@ img {
 }
 
 @keyframes bioCoreBreath {
-  0%,
-  100% {
-    transform: scale(0.97);
+  0%,100% {
+    transform: scale(.97);
   }
 
   50% {
@@ -130,12 +173,12 @@ img {
 
 @keyframes cropSignal {
   0% {
-    transform: scale(0.6);
+    transform: scale(.6);
     opacity: 0;
   }
 
   45% {
-    opacity: 0.75;
+    opacity: .75;
   }
 
   100% {
