@@ -1,5 +1,3 @@
-"use client";
-
 import Image from "next/image";
 import Link from "next/link";
 
@@ -10,84 +8,125 @@ const stats = [
 ];
 
 const features = [
+  "Chemical Ecology",
+  "Pheromone Intelligence",
+  "Kairomone-Based Targeting",
+  "Low Chemical Dependency",
+  "Field-Ready IPM",
+  "Sustainable Crop Protection",
+];
+
+const systems = [
   {
-    title: "Chemical Ecology",
-    desc: "Uses pest communication systems to control pest behavior naturally.",
+    title: "Monitor",
+    text: "Track pest activity with field-ready trapping intelligence.",
   },
   {
-    title: "Low Chemical Usage",
-    desc: "Supports crop protection with reduced pesticide dependency.",
+    title: "Target",
+    text: "Use pheromone and kairomone cues to influence pest behaviour.",
   },
   {
-    title: "Scalable Solutions",
-    desc: "Designed for small farms, commercial growers, and large agriculture.",
+    title: "Protect",
+    text: "Reduce pest pressure while supporting lower chemical usage.",
   },
 ];
 
 export default function HomePage() {
   return (
-    <main className="bg-white text-slate-900">
+    <main className="overflow-hidden bg-[#06100b] text-[#f5f1e8]">
       {/* HERO */}
-      <section className="relative flex min-h-screen w-full items-center justify-center overflow-hidden bg-black px-6 text-center">
+      <section className="relative flex min-h-screen items-center px-6 py-14">
         <Image
           src="/hero.jpg"
           alt="Bioorgo Agriculture"
           fill
           priority
           sizes="100vw"
-          className="object-contain object-center md:object-cover"
+          className="object-cover opacity-45"
         />
 
-        <div className="absolute inset-0 bg-black/65" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_25%,#8acb4540,transparent_30%),linear-gradient(90deg,#06100b_0%,#06100bee_42%,#06100b99_100%)]" />
+        <div className="bio-grid absolute inset-0 opacity-35" />
 
-        <div className="relative z-10 max-w-4xl">
-          <p className="mb-4 text-sm font-semibold uppercase tracking-[0.35em] text-green-300">
-            Bioorgo
-          </p>
+        <div className="relative mx-auto grid w-full max-w-7xl items-center gap-14 lg:grid-cols-[1.1fr_0.9fr]">
+          <div>
+            <p className="mb-7 inline-flex rounded-full border border-[#8acb45]/30 bg-white/5 px-5 py-2 text-[11px] font-black uppercase tracking-[0.35em] text-[#b7ef75] backdrop-blur">
+              Bioorgo Chemical Ecology
+            </p>
 
-          <h1 className="text-4xl font-bold leading-tight text-white md:text-6xl">
-            Advanced Integrated Pest Management
-            <span className="block text-green-400">
-              through Chemical Ecology
-            </span>
-          </h1>
+            <h1 className="max-w-5xl text-[clamp(3.4rem,7vw,7.6rem)] font-black leading-[0.9] tracking-[-0.065em]">
+              Precision Pest Control
+              <br />
+              <span className="text-[#b7ef75]">for Sustainable</span>
+              <br />
+              Agriculture
+            </h1>
 
-          <p className="mx-auto mt-6 max-w-2xl text-base leading-7 text-white/85 md:text-lg">
-            Precision pest control using pheromones and kairomones to disrupt
-            pest activity, reduce chemical dependency, and protect every
-            harvest sustainably.
-          </p>
+            <p className="mt-8 max-w-2xl text-base leading-8 text-[#c9d6c6] md:text-lg">
+              Advanced integrated pest management through pheromones,
+              kairomones and chemical ecology — reducing chemical dependency
+              while protecting every harvest.
+            </p>
 
-          <div className="mt-8 flex flex-col justify-center gap-4 sm:flex-row">
-            <Link
-              href="/contact"
-              className="rounded-full bg-white px-7 py-3 text-sm font-bold text-slate-950 transition hover:bg-green-100"
-            >
-              Get Started
-            </Link>
+            <div className="mt-9 flex flex-wrap gap-4">
+              <Link
+                href="/contact"
+                className="rounded-full bg-[#b7ef75] px-8 py-4 text-xs font-black uppercase tracking-[0.22em] text-[#06100b] shadow-[0_0_60px_#8acb4566] transition hover:-translate-y-1"
+              >
+                Get Started
+              </Link>
 
-            <Link
-              href="/services"
-              className="rounded-full border border-white/70 px-7 py-3 text-sm font-bold text-white transition hover:bg-white/15"
-            >
-              Explore Solutions
-            </Link>
+              <Link
+                href="/services"
+                className="rounded-full border border-white/15 bg-white/5 px-8 py-4 text-xs font-black uppercase tracking-[0.22em] text-white backdrop-blur transition hover:-translate-y-1 hover:bg-white/10"
+              >
+                Explore Solutions
+              </Link>
+            </div>
+          </div>
+
+          {/* AGRO SCIENCE VISUAL */}
+          <div className="relative mx-auto flex h-[620px] w-full max-w-[520px] items-center justify-center">
+            <div className="absolute h-[540px] w-[540px] rounded-full bg-[#8acb45]/10 blur-[120px]" />
+
+            <div className="bio-core relative flex h-[500px] w-[360px] items-center justify-center overflow-hidden rounded-[3rem] border border-[#8acb45]/25 bg-[#0b1a11]/80 shadow-[0_0_120px_#000] backdrop-blur">
+              <div className="dna-orbit orbit-a" />
+              <div className="dna-orbit orbit-b" />
+              <div className="dna-orbit orbit-c" />
+
+              <div className="crop-signal" />
+              <div className="crop-signal signal-delay" />
+
+              <Image
+                src="/fruit-fly-trap.png"
+                alt="Female Fruit Fly Trap"
+                width={280}
+                height={320}
+                className="relative z-10 h-auto w-64 object-contain drop-shadow-[0_30px_80px_rgba(0,0,0,0.8)]"
+              />
+
+              <div className="absolute bottom-8 text-center">
+                <p className="text-[10px] font-black uppercase tracking-[0.4em] text-[#b7ef75]">
+                  Pheromone • Kairomone • IPM
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* STATS */}
-      <section className="bg-slate-50 px-6 py-16">
-        <div className="mx-auto grid max-w-6xl gap-6 md:grid-cols-3">
+      <section className="px-6 py-20">
+        <div className="mx-auto grid max-w-7xl gap-4 md:grid-cols-3">
           {stats.map((item) => (
             <div
               key={item.label}
-              className="rounded-3xl border bg-white p-8 text-center shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
+              className="rounded-[2rem] border border-white/10 bg-white/[0.035] p-8 backdrop-blur"
             >
-              <p className="text-4xl font-bold text-green-700">
+              <p className="text-5xl font-black tracking-[-0.06em] text-[#b7ef75] md:text-6xl">
                 {item.value}
               </p>
-              <p className="mt-2 text-sm font-medium text-slate-500">
+              <p className="mt-3 text-xs font-black uppercase tracking-[0.28em] text-[#93a18e]">
                 {item.label}
               </p>
             </div>
@@ -95,68 +134,101 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* PRODUCT HIGHLIGHT */}
-      <section className="mx-auto grid max-w-6xl items-center gap-14 px-6 py-24 md:grid-cols-2">
-        <div className="relative h-105 overflow-hidden rounded-4xl border bg-white shadow-xl">
-          <Image
-            src="/fruit-fly-trap.jpg"
-            alt="Female Fruit Fly Trap"
-            fill
-            sizes="(max-width: 768px) 100vw, 50vw"
-            className="object-contain p-8"
-          />
-        </div>
-
-        <div className="text-left">
-          <p className="text-sm font-bold uppercase tracking-[0.25em] text-green-700">
-            Flagship Technology
-          </p>
-
-          <h2 className="mt-4 text-3xl font-bold leading-tight md:text-5xl">
-            Female Fruit Fly Targeting Technology
-          </h2>
-
-          <p className="mt-5 text-base leading-7 text-slate-600">
-            Break the pest lifecycle by targeting female fruit flies. This helps
-            reduce reproduction pressure and supports long-term crop protection
-            with lower chemical dependence.
-          </p>
-
-          <div className="mt-7 grid gap-3 text-slate-700">
-            <p>✔ Precision pest targeting</p>
-            <p>✔ Reduced pesticide usage</p>
-            <p>✔ Sustainable farming support</p>
+      {/* TECHNOLOGY */}
+      <section className="px-6 py-24">
+        <div className="mx-auto grid max-w-7xl items-center gap-14 lg:grid-cols-[0.95fr_1.05fr]">
+          <div className="relative h-[460px] overflow-hidden rounded-[3rem] border border-white/10 bg-[#0b1a11] shadow-[0_0_100px_#000]">
+            <Image
+              src="/fruit-fly-trap.png"
+              alt="Female Fruit Fly Trap"
+              fill
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              className="object-contain p-12"
+            />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,transparent_35%,#06100b99_100%)]" />
           </div>
 
-          <Link
-            href="/services"
-            className="mt-8 inline-block rounded-full bg-green-700 px-7 py-3 text-sm font-bold text-white transition hover:bg-green-800"
-          >
-            Learn More
-          </Link>
+          <div>
+            <p className="text-xs font-black uppercase tracking-[0.4em] text-[#b7ef75]">
+              Flagship Technology
+            </p>
+
+            <h2 className="mt-5 max-w-4xl text-[clamp(2.6rem,5vw,5.4rem)] font-black leading-[0.95] tracking-[-0.055em]">
+              Female fruit fly targeting technology.
+            </h2>
+
+            <p className="mt-7 max-w-2xl text-base leading-8 text-[#c9d6c6] md:text-lg">
+              Break the pest lifecycle by targeting female fruit flies and
+              reducing reproduction pressure. Built for sustainable crop
+              protection with lower chemical dependency.
+            </p>
+
+            <div className="mt-9 grid gap-3">
+              {[
+                "Precision pest targeting",
+                "Reduced pesticide dependency",
+                "Sustainable farming support",
+              ].map((item) => (
+                <div
+                  key={item}
+                  className="rounded-2xl border border-white/10 bg-white/[0.035] px-5 py-4 text-sm font-bold text-white"
+                >
+                  {item}
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
       {/* FEATURES */}
-      <section className="bg-slate-50 px-6 py-24">
-        <div className="mx-auto max-w-6xl">
-          <div className="mb-12 text-center">
-            <p className="text-sm font-bold uppercase tracking-[0.3em] text-green-700">
-              Why Bioorgo
-            </p>
-            <h2 className="mt-4 text-3xl font-bold md:text-5xl">
-              Smarter pest control, built for modern agriculture
-            </h2>
-          </div>
+      <section className="px-6 py-24">
+        <div className="mx-auto max-w-7xl">
+          <p className="text-xs font-black uppercase tracking-[0.4em] text-[#b7ef75]">
+            Why Bioorgo
+          </p>
 
-          <div className="grid gap-6 md:grid-cols-3">
+          <h2 className="mt-5 max-w-5xl text-[clamp(2.5rem,5vw,5rem)] font-black leading-[0.95] tracking-[-0.05em]">
+            Smarter pest control, built for modern agriculture.
+          </h2>
+
+          <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {features.map((item) => (
               <div
-                key={item.title}
-                className="rounded-3xl border bg-white p-8 shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
+                key={item}
+                className="rounded-[2rem] border border-white/10 bg-[#0b1a11] p-7 transition hover:-translate-y-2 hover:border-[#b7ef75]/40"
               >
-                <h3 className="text-xl font-bold">{item.title}</h3>
-                <p className="mt-3 leading-7 text-slate-600">{item.desc}</p>
+                <p className="text-2xl font-black tracking-[-0.04em] text-white">
+                  {item}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* SYSTEM */}
+      <section className="px-6 py-24">
+        <div className="mx-auto max-w-7xl rounded-[3.5rem] border border-white/10 bg-white/[0.035] p-8 backdrop-blur md:p-14">
+          <p className="text-xs font-black uppercase tracking-[0.4em] text-[#b7ef75]">
+            IPM System
+          </p>
+
+          <div className="mt-10 grid gap-5 md:grid-cols-3">
+            {systems.map((item, index) => (
+              <div
+                key={item.title}
+                className="rounded-[2rem] border border-white/10 bg-[#06100b] p-7"
+              >
+                <p className="text-xs font-black text-[#b7ef75]">
+                  0{index + 1}
+                </p>
+                <h3 className="mt-10 text-3xl font-black tracking-[-0.05em] text-white">
+                  {item.title}
+                </h3>
+                <p className="mt-4 text-sm leading-7 text-[#c9d6c6]">
+                  {item.text}
+                </p>
               </div>
             ))}
           </div>
@@ -164,23 +236,32 @@ export default function HomePage() {
       </section>
 
       {/* CTA */}
-      <section className="relative overflow-hidden px-6 py-24 text-center">
-        <div className="absolute left-1/2 top-1/2 -z-10 h-96 w-96 -translate-x-1/2 -translate-y-1/2 rounded-full bg-green-200 blur-3xl" />
+      <section className="px-6 py-28 text-center">
+        <div className="mx-auto max-w-5xl">
+          <p className="text-xs font-black uppercase tracking-[0.4em] text-[#b7ef75]">
+            Sustainable Crop Protection
+          </p>
 
-        <h2 className="text-3xl font-bold md:text-5xl">
-          Protect Every Harvest Sustainably
-        </h2>
+          <h2 className="mt-6 text-[clamp(2.8rem,6vw,6rem)] font-black leading-[0.95] tracking-[-0.055em]">
+            Protect every harvest.
+            <br />
+            Reduce chemical load.
+          </h2>
 
-        <p className="mt-4 text-slate-600">
-          Smart pest control powered by science.
-        </p>
+          <p className="mx-auto mt-7 max-w-2xl text-base leading-8 text-[#c9d6c6] md:text-lg">
+            Smart pest control powered by chemical ecology, designed for the
+            future of agriculture.
+          </p>
 
-        <Link
-          href="/contact"
-          className="mt-8 inline-block rounded-full bg-green-700 px-8 py-3 text-sm font-bold text-white transition hover:bg-green-800"
-        >
-          Contact Us
-        </Link>
+          <div className="mt-10">
+            <Link
+              href="/contact"
+              className="inline-flex rounded-full bg-[#b7ef75] px-10 py-5 text-xs font-black uppercase tracking-[0.22em] text-[#06100b] shadow-[0_0_70px_#8acb4566] transition hover:-translate-y-1"
+            >
+              Contact Bioorgo
+            </Link>
+          </div>
+        </div>
       </section>
     </main>
   );

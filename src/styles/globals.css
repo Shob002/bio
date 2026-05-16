@@ -1,13 +1,155 @@
 @import "tailwindcss";
 
-/* Base styles only — keep it minimal */
+:root {
+  --bg: #06100b;
+  --surface: #0d1a12;
+  --text: #f5f1e8;
+  --muted: #c9d6c6;
+  --green: #b7ef75;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 html {
   scroll-behavior: smooth;
 }
 
 body {
+  margin: 0;
+  overflow-x: hidden;
   font-family: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
-  background-color: #ffffff;
-  color: #111827;
+  background: var(--bg);
+  color: var(--text);
+  text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img {
+  user-select: none;
+}
+
+::selection {
+  background: var(--green);
+  color: #06100b;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #06100b;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: rgba(183, 239, 117, 0.45);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(183, 239, 117, 0.75);
+}
+
+.bio-grid {
+  background-image:
+    linear-gradient(rgba(183, 239, 117, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(183, 239, 117, 0.045) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: radial-gradient(circle at center, black, transparent 72%);
+}
+
+.bio-core {
+  will-change: transform;
+  animation: bioCoreBreath 5.8s ease-in-out infinite;
+}
+
+.dna-orbit {
+  position: absolute;
+  border-radius: 999px;
+  border: 1px solid rgba(183, 239, 117, 0.16);
+}
+
+.orbit-a {
+  height: 420px;
+  width: 420px;
+  animation: bioOrbit 26s linear infinite;
+}
+
+.orbit-b {
+  height: 310px;
+  width: 310px;
+  animation: bioOrbit 18s linear infinite reverse;
+}
+
+.orbit-c {
+  height: 210px;
+  width: 210px;
+  animation: bioOrbit 12s linear infinite;
+}
+
+.crop-signal {
+  position: absolute;
+  height: 260px;
+  width: 260px;
+  border-radius: 999px;
+  border: 1px solid rgba(183, 239, 117, 0.25);
+  box-shadow: 0 0 60px rgba(183, 239, 117, 0.12);
+  will-change: transform, opacity;
+  animation: cropSignal 4.5s ease-in-out infinite;
+}
+
+.signal-delay {
+  animation-delay: 1.3s;
+}
+
+@keyframes bioCoreBreath {
+  0%,
+  100% {
+    transform: scale(0.97);
+  }
+
+  50% {
+    transform: scale(1.03);
+  }
+}
+
+@keyframes bioOrbit {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes cropSignal {
+  0% {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+
+  45% {
+    opacity: 0.75;
+  }
+
+  100% {
+    transform: scale(1.45);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
 }
